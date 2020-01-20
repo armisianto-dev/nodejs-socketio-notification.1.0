@@ -24,7 +24,6 @@ io.on('connection', function (socket) {
             if (error) {
                 io.emit('error');
             } else {
-                console.log('Notification to User : ' + data.client_id + ' ');
                 io.to(data.client_id).emit('new notification', result);
             }
 
@@ -38,7 +37,6 @@ io.on('connection', function (socket) {
             if (error) {
                 io.emit('error');
             } else {
-                console.log('Notification load to User : ' + data.client_id + ' ');
                 io.to(data.client_id).emit('new notification', result);
             }
 
@@ -51,7 +49,6 @@ io.on('connection', function (socket) {
             if (error) {
                 io.emit('error');
             } else {
-                console.log('Notification read User : ' + data.client_id + ' ');
                 io.to(data.client_id).emit('new notification', result);
             }
         })
