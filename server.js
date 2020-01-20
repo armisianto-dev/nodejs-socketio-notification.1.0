@@ -13,13 +13,19 @@ server.listen(port, function () {
 // Controller API
 var conNotification = require('./api/controllers/notification')
 io.on('connection', function (socket) {
+    socket.on('join', function (client_id) {
+        console.log('User : ' + client_id + ' join');
+        socket.join(client_id);
+    });
+
     socket.on('notification added', function (data) {
 
         conNotification.pushNotification(data, function (error, result) {
             if (error) {
                 io.emit('error');
             } else {
-                io.sockets.emit(data.client_id, result);
+                console.log('Notification to User : ' + data.client_id + ' ');
+                io.to(data.client_id).emit('new notification', result);
             }
 
         })
@@ -32,7 +38,8 @@ io.on('connection', function (socket) {
             if (error) {
                 io.emit('error');
             } else {
-                io.sockets.emit(data.client_id, result);
+                console.log('Notification load to User : ' + data.client_id + ' ');
+                io.to(data.client_id).emit('new notification', result);
             }
 
         })
@@ -44,7 +51,8 @@ io.on('connection', function (socket) {
             if (error) {
                 io.emit('error');
             } else {
-                io.sockets.emit(data.client_id, result);
+                console.log('Notification read User : ' + data.client_id + ' ');
+                io.to(data.client_id).emit('new notification', result);
             }
         })
     })
