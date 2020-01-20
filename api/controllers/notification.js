@@ -61,3 +61,37 @@ exports.loadNotification = function (data, callback) {
         }
     })
 }
+
+// Read Notification
+exports.readNotification = function (data, callback) {
+    var params = {
+        read_st: 'read',
+        update_date: helper.get_currdatetime()
+    }
+
+    var where = {
+        notification_id: data.notification_id,
+        client_id: data.client_id
+    }
+
+    connectionAR.where(where).update('trx_notification', params, function (err) {
+        if (err) {
+            return callback(true, null)
+        } else {
+            // Get Top Notification
+            var sql = 'SELECT * FROM trx_notification WHERE client_id = ? AND read_st = "unread" ORDER BY create_date DESC LIMIT 5';
+            connection.query(sql, [data.client_id], function (errors, rows, fields) {
+                if (errors) {
+                    return callback(true, null)
+                } else {
+                    var dataNotification = {
+                        totalNotification: rows.length,
+                        listNotification: rows
+                    }
+
+                    return callback(false, dataNotification)
+                }
+            })
+        }
+    })
+}

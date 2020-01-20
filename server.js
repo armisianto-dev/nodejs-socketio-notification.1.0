@@ -38,4 +38,14 @@ io.on('connection', function (socket) {
         })
 
     });
+
+    socket.on('notification read', function (data) {
+        conNotification.readNotification(data, function (error, result) {
+            if (error) {
+                io.emit('error');
+            } else {
+                io.sockets.emit(data.client_id, result);
+            }
+        })
+    })
 });
