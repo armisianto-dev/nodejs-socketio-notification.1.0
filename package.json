@@ -18,6 +18,6 @@
     "mysql": "^2.17.1",
     "mysql-activerecord": "^0.8.6",
     "node-input-validator": "^3.6.4",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.4.0"
   }
 }
